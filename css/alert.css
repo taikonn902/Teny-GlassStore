@@ -1,0 +1,66 @@
+.alert-success, .delete-success, .error-alert{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background-color: #FFF;
+    padding: 10px 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 550px;
+    -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    opacity: 0;
+    visibility: hidden;
+    transition: all ease-in-out 0.3s;
+}
+
+.alert-success.show, .delete-success.show, .error-alert.show{
+    transform: translate(-50%, 100%);
+    opacity: 1;
+    visibility: visible;
+}
+
+.alert-success::after, .delete-success::after, .error-alert::after{
+    content: "";
+    left: 0;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    background-color: #55D5D2;
+}
+
+.error-alert::after{
+    content: "";
+    left: 0;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    background-color: red;
+}
+
+.alert-left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    color: #55D5D2;
+}
+
+.alert-right h3{
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.alert-right p{
+    font-weight: 500;
+}
+
+.error-alert .alert-left{
+    color: red;
+}

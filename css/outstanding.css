@@ -1,0 +1,106 @@
+/* outstanding */
+.outstanding-product {
+    background-color: #EEF9F9;
+    padding-bottom: 20px;
+}
+
+.outstanding-title {
+    width: 90%;
+    margin: 0px auto;
+    padding: 50px 0 40px 0;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: #55D5D2;
+}
+
+.product-list {
+    width: 90%;
+    margin: 0px auto;
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.product-item {
+    width: 25%;
+    position: relative;
+    height: 430px;
+    -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    border-radius: 20px;
+}
+
+.product-item:hover .product-img {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.container-img {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.product-img {
+    width: 100%;
+    transition: transform 0.3s ease; 
+}
+
+.product-info {
+    position: absolute;
+    padding: 20px 20px 30px 20px;
+    background-color: #fff;
+    border-radius: 20px;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    transition: opacity 0.3s ease; 
+    z-index: 10;
+}
+
+.product-name {
+    font-weight: 700;
+    font-size: 16px;
+    height: 50px;
+    transition: all ease-in-out 0.3s;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+
+}
+
+.product-item:hover .product-name{
+    color: #F58F5D;
+}
+
+.product-price {
+    align-items: center;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 25px;
+    color: #FFF;
+    background-color: #55D5D2;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 25px;
+    margin-top: 20px;
+    transition: all ease-in-out 0.3s;
+}
+
+.product-item:hover .product-price{
+    background-color: #F58F5D;
+}
+.product-price i {
+    display: inline-block;
+    transform: rotate(315deg); 
+    transition: transform 0.3s ease;
+}
+
+.product-item:hover .product-price i {
+    transform: rotate(0deg);
+}

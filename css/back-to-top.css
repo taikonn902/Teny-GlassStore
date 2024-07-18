@@ -1,0 +1,21 @@
+.top-page-btn {
+    z-index: 10;
+    background-color: #55D5D2;
+    width: 40px;
+    height: 40px;
+    border: none;
+    transition: all 0.3s ease-in-out;
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    color: #FFF;
+    z-index: 999;
+    opacity: 0;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.top-page-btn:hover {
+    background-color: #F58F5D;
+    transform: translateY(-5px);
+}
