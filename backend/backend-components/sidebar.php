@@ -14,9 +14,8 @@
         left: 0;
         height: 100%;
         width: 260px;
-        background-color: var(--color_Dark1);
         transition: all .5s ease;
-        z-index: 100;
+        /* z-index: 100; */
     }
 
     .sidebar.close {
@@ -32,18 +31,20 @@
         color: #FFF;
         transition: all .5s ease;
         background-color: #4ABAB6;
+        
     }
 
     .logo-box:hover {
         background-color: #F58F5D;
     }
 
-    .logo-box i {
+    .logo-box img {
         font-size: 30px;
-        height: 50px;
         min-width: 78px;
+        max-width: 78px;
         text-align: center;
         line-height: 50px;
+        align-items: center;
         transition: all .5s ease;
     }
 
@@ -205,8 +206,8 @@
 <div class="sidebar close">
     <!-- ========== Logo ============  -->
     <a href="#" class="logo-box">
-        <i class='bx bxl-xing'></i>
-        <div class="logo-name">Anna Shop</div>
+        <img src="<?php echo ROOT_PATH; ?>images/logo.png" alt="">
+        <div class="logo-name">TENY Shop</div>
     </a>
 
     <!-- ========== List ============  -->

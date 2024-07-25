@@ -11,7 +11,7 @@
 <header id="header-page">
     <section class="header-top">
         <div class="header-top-left">
-            <p>GIẢM NGAY 15% CHO ĐƠN HÀNG ĐẦU TIÊN</p>
+            <p>HÀNG NGÀN VOUCHER CHO KHÁCH HÀNG MỚI</p>
         </div>
 
         <div class="header-top-right">
@@ -22,9 +22,8 @@
             <div class="header-top-right-item">
                 <a href="">Tra Cứu Đơn Hàng</a>
             </div>
-
             <div class="header-top-right-item hello-user">
-                <a href="login.php" id="loginLink">
+                <a href="<?php echo ROOT_FE;?>login-register/login.php" id="loginLink">
                     <i class="fa-solid fa-user"></i>
 
                     <?php
@@ -34,7 +33,8 @@
 
                         echo '<div class="user-dropdown-content" id="dropdownContent">';
                         echo '<a class="user-link" href="#">Cài đặt</a>';
-                        echo '<a class="user-link" href="logout.php">Đăng xuất</a>';
+                        echo '<a class="user-link" href="' . ROOT_FE . 'login-register/logout.php">Đăng xuất</a>';
+
                         echo ' </div>';
                     } else {
                         echo '<span>Người Dùng</span>';
@@ -60,7 +60,7 @@
     <section class="header-bottom">
         <div class="header-bottom-left">
             <li class="header-bottom-item">
-                <a class="header-bottom-link" href="">Sản Phẩm <i class="fa-solid fa-angle-down"></i></a>
+                <a class="header-bottom-link" href="<?php echo ROOT_FE?>views/all-item.php">Sản Phẩm <i class="fa-solid fa-angle-down"></i></a>
             </li>
 
             <li class="header-bottom-item">
@@ -73,8 +73,8 @@
             </li>
         </div>
 
-        <a class="header-bottom-mid" href="index.php">
-            <img class="logo-page" src="images/logo-page.jpg" alt="LOGO">
+        <a class="header-bottom-mid" href="<?php echo ROOT_FE?>index.php">
+            <img class="logo-page" src="<?php echo ROOT_FE?>images/logo-page.jpeg" alt="LOGO">
         </a>
 
         <div class="header-bottom-right">
@@ -291,20 +291,20 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        width: 85px;
-        height: 85px;
-        transition: all ease-in-out 0.3s;
-        border-left: 1px solid #FFF;
-        border-right: 1px solid #FFF;
-        border-radius: 50%;
+        width: 90px;
+        height: 90px;
     }
 
     .logo-page{
-        width: 85px;
-        height: 85px;
-     
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        transition: transform 0.3s ease-in-out;
     }
 
+    .logo-page:hover {
+    transform: rotate(360deg);
+}
     .header-bottom-right{
         display: flex;
         gap: 30px;

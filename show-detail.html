@@ -262,7 +262,7 @@
                             <span>
                                 1. Bảo hành 1 đổi 1 trong 180 ngày sau khi mua hàng nếu lớp váng dầu của tròng kính gặp
                                 vấn đề về kỹ thuật như xô váng, mất váng mà không phải do nhiệt hay tác động vật lý như
-                                trầy xước, nứt, vỡ. <br> <br>   
+                                trầy xước, nứt, vỡ. <br> <br>
 
                                 2. Anna bảo hành cho cả lỗi người dùng nếu không may làm gẫy hoặc mất kính. Trợ giá 50%
                                 giá niêm yết khi khách hàng sử dụng lại sản phẩm cũ. Trong trường hợp sản phẩm cũ hết
@@ -274,53 +274,6 @@
                 </div>
             </div>
         </section>
-
-        <script>
-         document.addEventListener('DOMContentLoaded', function () {
-    const detailItems = document.querySelectorAll('.suplementary-detail-item');
-
-    detailItems.forEach(item => {
-        const topSection = item.querySelector('.suplementary-detail-item-top');
-        const button = topSection.querySelector('button');
-        const span = item.querySelector('span');
-        const icon = button.querySelector('.fa-solid');
-
-        // Sử dụng sự kiện click cho cả .suplementary-detail-item-top và button
-        topSection.addEventListener('click', () => {
-            // Đóng tất cả các phần tử khác trước khi mở rộng phần tử hiện tại
-            detailItems.forEach(otherItem => {
-                if (otherItem !== item) {
-                    const otherSpan = otherItem.querySelector('span');
-                    otherSpan.classList.remove('show-span');
-                    otherSpan.style.maxHeight = '0';
-                    otherItem.querySelector('.fa-solid').classList.remove('fa-minus');
-                    otherItem.querySelector('.fa-solid').classList.add('fa-plus');
-                }
-            });
-
-            // Toggle class show-span để thay đổi trạng thái hiển thị của phần tử hiện tại
-            span.classList.toggle('show-span');
-
-            // Lấy chiều cao của nội dung trong span
-            const maxHeight = span.scrollHeight + 'px';
-
-            // Thiết lập max-height dựa trên trạng thái của show-span class
-            span.style.maxHeight = span.classList.contains('show-span') ? maxHeight : '0';
-
-            // Thay đổi biểu tượng trên nút
-            icon.classList.toggle('fa-minus');
-            icon.classList.toggle('fa-plus');
-        });
-    });
-});
-
-
-
-
-
-
-
-        </script>
 
         <section class="polixy-product-detail">
             <div class="container-policy">
@@ -1093,10 +1046,13 @@
 
 <script src="js/update-add-to-cart.js"></script>
 
+<script src="js/extra-des.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.js"></script>
 
 <!-- <script src="js/test.js"></script> -->
 
 <script src="js/header.js"></script>
 
+<script src="js/test.js"></script>
 </html>

@@ -8,15 +8,17 @@
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/custom-scroll.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/custom-scroll.css">
+    <link rel="stylesheet" href="../css/back-to-top.css">
+    <link rel="stylesheet" href="../css/hide.css">
 
-    <title>Đăng Nhập | Z9Shop</title>
+    <title>Đăng Nhập | TENY</title>
 </head>
 
 <style>
     .container-background {
-        padding: 70px 0;
+        padding: 70px 0px 0px 0px;
         background: linear-gradient(to top right, #D7F8F8 0%, #FFFFFF 50%, #FFFFFF 70%, #FFC8B0 120%);
     }
 
@@ -34,7 +36,8 @@
         border-bottom-left-radius: 30px;
         height: 100%;
         display: flex;
-        align-items: center
+        align-items: center;
+        width: 50%;
     }
 
     .login-form-left img {
@@ -46,7 +49,7 @@
 
     .login-form-right {
         flex-grow: 1;
-        padding-left: 100px;
+        /* padding-left: 100px; */
         height: 100%;
         border-top-right-radius: 30px;
         border-bottom-right-radius: 30px;
@@ -235,18 +238,20 @@
     }
 </style>
 
+<?php include "../config/dir-config.php";?>
+
 <body>
-    <?php include "components/header.php"; ?>
+    <?php include "../components/header.php"; ?>
     <div class="container-background">
         <div class="container-login-form">
             <div class="login-form-left">
-                <img src="images/img-login.jpeg" alt="img-login">
+                <img src="<?php echo ROOT_FE?>images/login-img.jpg" alt="img-login">
             </div>
 
             <div class="login-form-right">
                 <form id="loginForm" method="POST" class="login-form">
                     <h1>Đăng Nhập</h1>
-                    <p>Hãy đăng nhập ANNA để được hưởng đặc quyền và ưu đãi riêng dành cho bạn !!!</p>
+                    <p>Hãy đăng nhập TENY để được hưởng đặc quyền và ưu đãi riêng dành cho bạn !!!</p>
 
                     <div class="form-group">
                         <input type="text" id="username" name="user_name" required placeholder=" ">
@@ -272,7 +277,7 @@
                             class="fa-solid fa-arrow-right"></i></button>
                     <div id="message"></div>
                     <div class="register-link">
-                        <p>Bạn chưa có tài khoản Anna? <a href="register.php"><span>Đăng ký ngay</span></a></p>
+                        <p>Bạn chưa có tài khoản TENY? <a href="register.php"><span>Đăng ký ngay</span></a></p>
                     </div>
                 </form>
             </div>
@@ -280,7 +285,7 @@
     </div>
 </body>
 
-<script src="js/login.js"></script>
+<script src="../js/login.js"></script>
 
 <script>
     document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -290,7 +295,7 @@
         var password = document.getElementById('password').value;
         
         var xhr = new XMLHttpRequest();
-        var url = 'action-user/login-action.php';
+        var url = '<?php echo ROOT_FE?>action-user/login-action.php';
         var params = 'user_name=' + encodeURIComponent(username) + '&pass_word=' + encodeURIComponent(password);
 
         xhr.open('POST', url, true);
@@ -318,5 +323,7 @@
         xhr.send(params);
     });
 </script>
+
+<script src="../js/scroll-to-top.js"></script>
 
 </html>

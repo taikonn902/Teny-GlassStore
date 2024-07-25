@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-include('../database/connectDB.php');
+include('../config/connectDB.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_name = $_POST['user_name'];
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_name'] = $user['user_name'];
             $_SESSION['role_id'] = $user['role_id'];
 
-            $base_url = 'http://' . $_SERVER['HTTP_HOST'] . '/anna-shop';
+            $base_url = 'http://' . $_SERVER['HTTP_HOST'] . '/teny-shop';
             if ($user['role_id'] == 1 || $user['role_id'] == 2) {
                 $redirect_url = $base_url . '/backend/index.php';
             } elseif ($user['role_id'] == 3) {
@@ -28,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             echo $redirect_url;
-
         } else {
             echo 'Tài khoản hoặc mật khẩu không đúng!';
         }
@@ -40,5 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo 'Yêu cầu không hợp lệ.';
 }
-
 ?>
+
+<style>
+
+</style>

@@ -1,6 +1,6 @@
 <?php
-ob_start(); 
-session_start(); 
+ob_start();
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -21,28 +21,31 @@ session_start();
     <link rel="stylesheet" href="css/animation.css">
     <link rel="stylesheet" href="css/gallery.css">
 
-    <title>Anna</title>
+    <title>TENY Shop</title>
 </head>
 
 <style>
     .main-top-page {
-    width: 100%;
-    overflow: hidden;
-}
+        width: 100%;
+        overflow: hidden;
+    }
 
-.main-top-page img {
-    width: 100%;
-    height: auto;
-}
+    .main-top-page img {
+        width: 100%;
+        height: auto;
+    }
 </style>
+
+<?php include "config/dir-config.php";?>
 
 <body>
     <?php include "components/header.php"; ?>
 
     <section class="main-top-page">
-        <img src="images/web-07.png" alt="">
+        <img src="<?php echo ROOT_FE?>images/T (1).jpg" alt="BANNER">
     </section>
 </body>
 
 <script src="js/pop-up.js"></script>
+
 </html>
