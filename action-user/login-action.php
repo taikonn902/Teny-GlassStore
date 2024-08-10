@@ -40,7 +40,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo 'Yêu cầu không hợp lệ.';
 }
 ?>
-
-<style>
-
-</style>

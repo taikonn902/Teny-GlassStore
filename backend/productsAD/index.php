@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="../css/backend-global.css">
 
+    <link rel="stylesheet" href="../css/test.css">
 
     <title>Products Management</title>
 </head>
@@ -47,7 +48,7 @@
 </style>
 
 <?php
-include "../backend-components/sidebar.php";
+// include "../backend-components/sidebar.php";
 include "../backend-config/connectDB.php";
 
 $sql_categories = "SELECT * FROM categorys ORDER BY category_id DESC";
@@ -84,7 +85,7 @@ $result_colors = $conn->query($sql_colors);
     }
 
     .checkbox-group {
-    margin-left: 20px;
+        margin-left: 20px;
         margin-bottom: 20px;
         cursor: pointer;
         align-items: center;
@@ -122,25 +123,24 @@ $result_colors = $conn->query($sql_colors);
 
 <!-- ss-4 css -->
 <style>
-    .ss-4{
+    .ss-4 {
         width: 90%;
         margin: 0px auto;
     }
-    .checkbox-group{
+
+    .checkbox-group {
         p
     }
-
 </style>
 
 <!-- ss-5 css -->
 <style>
-    .color-item {
+    /* .color-item {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        margin-bottom: 10px;
-        width: calc(33% - 20px);
-    }
+        
+    } */
 
     .color-demo {
         width: 40px;
@@ -229,7 +229,7 @@ $result_colors = $conn->query($sql_colors);
             </form>
         </div>
 
-        <form class="add-new-product-form">
+        <form class="add-new-product-form" method="POST" enctype="multipart/form-data">
             <h2>Thêm Sản Phẩm Mới</h2>
 
             <div class="scroll-add-product-form">
@@ -289,14 +289,36 @@ $result_colors = $conn->query($sql_colors);
                     </div>
                 </div>
 
-                <div class="ss-4">
-                    <h3>Hình dáng</h3>
-
-                    <div class="checkbox-group">
+                <div class="shape-color-selection">
+                    <h3>Hình dáng - Màu sắc - Số lượng - Hình ảnh</h3>
+                    <div id="shape-color-group">
                         <?php
                         if ($result_shapes->num_rows > 0) {
-                            while ($row = $result_shapes->fetch_assoc()) {
-                                echo '<label><input type="checkbox" name="shapes[]" value="' . htmlspecialchars($row['shape_id']) . '"> ' . htmlspecialchars($row['shape_name']) . '</label>';
+                            $colors = [];
+                            if ($result_colors->num_rows > 0) {
+                                while ($color = $result_colors->fetch_assoc()) {
+                                    $colors[] = $color;
+                                }
+                            }
+
+                            while ($shape = $result_shapes->fetch_assoc()) {
+                                echo '<div class="shape-item">';
+                                echo '<label><input type="checkbox" name="shapes[]" value="' . htmlspecialchars($shape['shape_id']) . '" class="shape-checkbox"> ' . htmlspecialchars($shape['shape_name']) . '</label>';
+                                echo '<div class="color-group" style="display: none;">';
+
+                                foreach ($colors as $color) {
+                                    echo '<div class="color-item">';
+                                    echo '<label>';
+                                    echo '<div class="color-demo" style="background-color:' . htmlspecialchars($color['color_code']) . ';"></div>';
+                                    echo '<input type="checkbox" name="shape_colors[' . htmlspecialchars($shape['shape_id']) . '][' . htmlspecialchars($color['color_id']) . ']" value="' . htmlspecialchars($color['color_id']) . '" class="color-checkbox"> ' . htmlspecialchars($color['color_name']);
+                                    echo '<input type="number" name="quantity[' . htmlspecialchars($shape['shape_id']) . '][' . htmlspecialchars($color['color_id']) . ']" min="1" class="quantity-input" style="display: none;">';
+                                    echo '<input type="file" name="color_image[' . htmlspecialchars($shape['shape_id']) . '][' . htmlspecialchars($color['color_id']) . ']" class="image-input" style="display: none;">';
+                                    echo '</label>';
+                                    echo '</div>';
+                                }
+
+                                echo '</div>';
+                                echo '</div>';
                             }
                         } else {
                             echo '<p>Không có hình dáng nào</p>';
@@ -305,46 +327,30 @@ $result_colors = $conn->query($sql_colors);
                     </div>
                 </div>
 
-                <div class="ss-5">
-                    <h3>Màu sắc</h3>
-                    <div class="checkbox-group">
-                        <?php
-                        if ($result_colors->num_rows > 0) {
-                            while ($row = $result_colors->fetch_assoc()) {
-                                echo '<label class="color-item">';
-                                echo '<div class="color-demo" style="background-color:' . htmlspecialchars($row['color_code']) . ';"></div>';
-                                echo '<input type="checkbox" name="colors[]" value="' . htmlspecialchars($row['color_id']) . '"> ' . htmlspecialchars($row['color_name']);
-                                echo '</label>';
-                            }
-                        } else {
-                            echo '<p>Không có màu sắc nào</p>';
-                        }
-                        ?>
-                    </div>
-                </div>
-
-                <div class="ss-6">
-
-                </div>
-
                 <div class="ss-7">
                     <label>Mô tả sản phẩm</label>
-
                     <textarea name="product_des" id="product-des" class="product-des"></textarea>
                 </div>
 
-                <div class="ss-8">
-                    <div class="product-name-group">
-                        <input type="text" id="product-quantity" name="product_quantity" required placeholder=" ">
-                        <label for="product-name">Số lượng</label>
+                <div class="ss-9">
+                    <h3>Hình ảnh</h3>
+                    <div class="image-upload-container">
+                        <input type="file" id="main-image" accept="image/*" name="main_product_img" />
+                        <div class="image-preview">
+                            <img id="preview-image" src="" alt="Preview Image" style="display: none;" />
+                        </div>
                     </div>
                 </div>
 
-                <div class="ss-9">
-
+                <div class="ss-10">
+                    <button type="submit" class="add-new-product">
+                        <span>Thêm sản phẩm</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
         </form>
+
 
         <div class="container-show-products">
 
@@ -353,8 +359,49 @@ $result_colors = $conn->query($sql_colors);
 </section>
 
 </body>
+<!-- ss-9 css -->
+<style>
+    .ss-9 {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 20px auto;
+    }
 
+    .ss-9 h3 {
+        margin-bottom: 10px;
+    }
 
+    .image-upload-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #main-image {
+        margin-bottom: 10px;
+    }
+
+    .image-preview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 300px;
+        height: 200px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #fff;
+    }
+
+    #preview-image {
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
 
 </html>
 <style>
@@ -490,10 +537,11 @@ $result_colors = $conn->query($sql_colors);
                 const priceInput = priceGroup.querySelector('input[type="text"]');
 
                 if (!priceGroup.contains(event.target) && !checkbox.contains(event.target) && !priceInput.contains(event.target)) {
+                    // Chỉ bỏ chọn checkbox và ẩn priceGroup nếu input không có giá trị
                     if (priceInput.value === '') {
                         checkbox.checked = false;
+                        priceGroup.classList.remove('show');
                     }
-                    priceGroup.classList.remove('show');
                 }
             });
         }
@@ -532,21 +580,253 @@ $result_colors = $conn->query($sql_colors);
             });
         });
     });
+
 </script>
 
-<script src="https://cdn.tiny.cloud/1/qx6o7oemh6rf889onwu3ov68xxxd686l7b2052mqsuld64yy/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="../js/test.js"></script>
+
+<!-- <script src="https://cdn.tiny.cloud/1/qx6o7oemh6rf889onwu3ov68xxxd686l7b2052mqsuld64yy/tinymce/7/tinymce.min.js"
+    referrerpolicy="origin"></script>
 
 <script>
-  tinymce.init({
-    selector: 'textarea',
-    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-    tinycomments_mode: 'embedded',
-    tinycomments_author: 'Author name',
-    mergetags_list: [
-      { value: 'First.Name', title: 'First Name' },
-      { value: 'Email', title: 'Email' },
-    ],
-    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-  });
-</script>
+    tinymce.init({
+        selector: 'textarea',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+        mergetags_list: [
+            { value: 'First.Name', title: 'First Name' },
+            { value: 'Email', title: 'Email' },
+        ],
+        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+    });
+</script> -->
+
+<?php
+// include "../backend-config/connectDB.php";
+
+// date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+// // Hàm tạo ID sản phẩm duy nhất
+// function generateUniqueId($conn) {
+//     do {
+//         $product_id = 'TENY-PD-' . str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+//         $sql = "SELECT COUNT(*) FROM products WHERE product_id = '$product_id'";
+//         $result = $conn->query($sql);
+//         $row = $result->fetch_array();
+//     } while ($row[0] > 0);
+
+//     return $product_id;
+// }
+
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     $product_name = $conn->real_escape_string($_POST['product_name']);
+//     $brand_id = intval($_POST['brand_name']);
+//     $category_id = intval($_POST['category_name']);
+//     $product_des = $conn->real_escape_string($_POST['product_des']);
+//     $create_time = date('Y-m-d H:i:s');
+
+//     // Tạo ID sản phẩm duy nhất
+//     $product_id = generateUniqueId($conn);
+
+//     // Xử lý hình ảnh chính
+//     $target_dir = "./product-img/";
+//     if (!file_exists($target_dir)) {
+//         mkdir($target_dir, 0777, true);
+//     }
+
+//     $main_image = '';
+//     if (isset($_FILES["main_product_img"]) && $_FILES["main_product_img"]["error"] == 0) {
+//         $target_file = $target_dir . basename($_FILES["main_product_img"]["name"]);
+//         if (move_uploaded_file($_FILES["main_product_img"]["tmp_name"], $target_file)) {
+//             $main_image = basename($_FILES["main_product_img"]["name"]);
+//         } else {
+//             die("Lỗi khi di chuyển tập tin tải lên hình ảnh chính.");
+//         }
+//     }
+
+//     $sql = "INSERT INTO products (product_id, product_name, brand_id, category_id, product_des, product_main_img, create_time)
+//             VALUES ('$product_id', '$product_name', $brand_id, $category_id, '$product_des', '$main_image', '$create_time')";
+
+// if ($conn->query($sql) === TRUE) {
+//     // Thêm chi tiết sản phẩm vào bảng product_details
+//     if (isset($_POST['materials']) && isset($_POST['shapes']) && isset($_POST['colors'])) {
+//         foreach ($_POST['materials'] as $material_id) {
+//             $material_id = intval($material_id);
+
+//             foreach ($_POST['shapes'] as $shape_id) {
+//                 $shape_id = intval($shape_id);
+
+//                 foreach ($_POST['colors'] as $color_id) {
+//                     $color_id = intval($color_id);
+
+//                     // Lấy giá trị nguyên từ ô input
+//                     $product_quantity = isset($_POST['quantity_' . $color_id]) ? $_POST['quantity_' . $color_id] : '0';
+//                     $product_price = isset($_POST['product_price_' . $material_id]) ? $_POST['product_price_' . $material_id] : '0';
+
+//                     // Hiển thị giá trị để kiểm tra
+//                     echo "Product Price: " . htmlspecialchars($product_price) . "<br>";
+//                     echo "Product Quantity: " . htmlspecialchars($product_quantity) . "<br>";
+
+//                     $color_image = '';
+//                     $color_image_field = 'color_image_' . $color_id;
+//                     if (isset($_FILES[$color_image_field]) && $_FILES[$color_image_field]['error'] == 0) {
+//                         $target_file_color = $target_dir . basename($_FILES[$color_image_field]['name']);
+//                         if (move_uploaded_file($_FILES[$color_image_field]['tmp_name'], $target_file_color)) {
+//                             $color_image = basename($_FILES[$color_image_field]['name']);
+//                         } else {
+//                             die("Lỗi khi di chuyển tập tin tải lên hình ảnh màu.");
+//                         }
+//                     }
+
+//                     // Thực hiện chèn dữ liệu vào cơ sở dữ liệu nếu mọi thứ đều ổn
+//                     $sql_detail = "INSERT INTO product_details (product_id, material_id, shape_id, color_id, product_price, product_quantity, product_img)
+//                                    VALUES ('$product_id', $material_id, $shape_id, $color_id, '$product_price', '$product_quantity', '$color_image')";
+
+//                     if (!$conn->query($sql_detail)) {
+//                         echo "Lỗi: " . $sql_detail . "<br>" . $conn->error;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     echo "Sản phẩm đã được thêm thành công!";
+// } else {
+//     echo "Lỗi: " . $sql . "<br>" . $conn->error;
+// }
+
+
+//     $conn->close();
+// } else {
+//     echo "Form chưa được gửi.";
+// }
+?>
+
+<?php
+include "../backend-config/connectDB.php";
+
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+// Hàm tạo ID sản phẩm duy nhất
+function generateUniqueId($conn) {
+    do {
+        $product_id = 'TENY-PD-' . str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+        $sql = "SELECT COUNT(*) FROM products WHERE product_id = '$product_id'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_array();
+    } while ($row[0] > 0);
+    
+    return $product_id;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $product_name = $conn->real_escape_string($_POST['product_name']);
+    $brand_id = intval($_POST['brand_name']);
+    $category_id = intval($_POST['category_name']);
+    $product_des = $conn->real_escape_string($_POST['product_des']);
+    $create_time = date('Y-m-d H:i:s');
+
+    // Tạo ID sản phẩm duy nhất
+    $product_id = generateUniqueId($conn);
+
+    // Xử lý hình ảnh chính
+    $target_dir = "./product-img/";
+    if (!file_exists($target_dir)) {
+        mkdir($target_dir, 0777, true);
+    }
+
+    $main_image = '';
+    if (isset($_FILES["main_product_img"]) && $_FILES["main_product_img"]["error"] == 0) {
+        $target_file = $target_dir . basename($_FILES["main_product_img"]["name"]);
+        if (move_uploaded_file($_FILES["main_product_img"]["tmp_name"], $target_file)) {
+            $main_image = basename($_FILES["main_product_img"]["name"]);
+        } else {
+            die("Lỗi khi di chuyển tập tin tải lên hình ảnh chính.");
+        }
+    }
+
+    $sql = "INSERT INTO products (product_id, product_name, brand_id, category_id, product_des, product_main_img, create_time)
+            VALUES ('$product_id', '$product_name', $brand_id, $category_id, '$product_des', '$main_image', '$create_time')";
+
+    if ($conn->query($sql) === TRUE) {
+        // Thêm chi tiết sản phẩm vào bảng product_details
+        if (isset($_POST['materials']) && isset($_POST['shapes'])) {
+            foreach ($_POST['materials'] as $material_id) {
+                $material_id = intval($material_id);
+                $product_price = $_POST["product_price_" . $material_id] ?? '0';
+
+                foreach ($_POST['shapes'] as $shape_id) {
+                    $shape_id = intval($shape_id);
+
+                    foreach ($_POST['shape_colors'][$shape_id] ?? [] as $color_id) {
+                        $color_id = intval($color_id);
+                        $product_quantity = $_POST["quantity"][$shape_id][$color_id] ?? '0';
+
+                        // Xử lý hình ảnh phụ
+                        $color_image = '';
+                        $color_image_field = 'color_image_' . $shape_id . '_' . $color_id;
+                        if (isset($_FILES['color_image']['name'][$shape_id][$color_id])) {
+                            $color_image_name = $_FILES['color_image']['name'][$shape_id][$color_id];
+                            $color_image_tmp_name = $_FILES['color_image']['tmp_name'][$shape_id][$color_id];
+                            $color_image_target_file = $target_dir . basename($color_image_name);
+
+                            if (move_uploaded_file($color_image_tmp_name, $color_image_target_file)) {
+                                $color_image = basename($color_image_name);
+                            } else {
+                                die("Lỗi khi di chuyển tập tin tải lên hình ảnh màu.");
+                            }
+                        }
+
+                        // Thực hiện chèn dữ liệu vào cơ sở dữ liệu
+                        $sql_detail = "INSERT INTO product_details (product_id, material_id, shape_id, color_id, product_price, product_quantity, product_img)
+                                       VALUES ('$product_id', $material_id, $shape_id, $color_id, '$product_price', '$product_quantity', '$color_image')";
+
+                        if (!$conn->query($sql_detail)) {
+                            echo "Lỗi: " . $sql_detail . "<br>" . $conn->error;
+                        }
+                    }
+                }
+            }
+        }
+
+        echo "<h2>Kết quả submit:</h2>";
+        echo "<p><strong>Tên sản phẩm:</strong> $product_name</p>";
+        echo "<p><strong>Thương hiệu:</strong> $brand_id</p>";
+        echo "<p><strong>Loại sản phẩm:</strong> $category_id</p>";
+        echo "<p><strong>Mô tả sản phẩm:</strong> $product_des</p>";
+
+        echo "<h3>Chất liệu và giá:</h3>";
+        echo "<ul>";
+        foreach ($_POST['materials'] as $material_id) {
+            $product_price = $_POST["product_price_" . $material_id] ?? '0';
+            echo "<li>Material ID: $material_id - Giá: $product_price</li>";
+        }
+        echo "</ul>";
+
+        echo "<h3>Hình dáng - Màu sắc - Số lượng - Hình ảnh:</h3>";
+        foreach ($_POST['shapes'] as $shape_id) {
+            echo "<h4>Shape ID: $shape_id</h4>";
+            echo "<ul>";
+            foreach ($_POST['shape_colors'][$shape_id] ?? [] as $color_id) {
+                $product_quantity = $_POST["quantity"][$shape_id][$color_id] ?? '0';
+                $color_image = $_FILES['color_image']['name'][$shape_id][$color_id] ?? '';
+
+                echo "<li>Color ID: $color_id - Số lượng: $product_quantity - Hình ảnh: $color_image</li>";
+            }
+            echo "</ul>";
+        }
+
+        echo "<p><strong>Hình ảnh sản phẩm chính:</strong> $main_image</p>";
+
+        echo "Sản phẩm đã được thêm thành công!";
+    } else {
+        echo "Lỗi: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+} else {
+    echo "Form chưa được gửi.";
+}
+?>
