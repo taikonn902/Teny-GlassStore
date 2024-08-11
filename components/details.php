@@ -3,7 +3,6 @@ include "../config/connectDB.php";
 
 $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : '';
 
-// Kiểm tra xem product_id có được cung cấp không
 if (empty($product_id)) {
     echo 'Sản phẩm không hợp lệ.';
     exit();
@@ -39,6 +38,8 @@ if ($stmt = $conn->prepare($sql)) {
         $category_name = htmlspecialchars($product['category_name']);
         $total_quantity = htmlspecialchars($product['total_quantity']);
 
+        echo '<title>' . htmlspecialchars($product['product_name']) . '</title>';
+        
         // Truy vấn để lấy tất cả các màu sắc
         $color_sql = "
         SELECT DISTINCT c.color_name, c.color_code
